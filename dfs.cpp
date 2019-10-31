@@ -279,7 +279,25 @@ void expand(const State &s, State* &children, int &num)
 }
 bool DFS(Stack &agenda, Set &closed,const State &goal,State &solution)
 {
-    
+    State s;
+    if (agenda.isEmpty())
+        return false;
+    agenda.pop(s);
+    if (s.equals(goal))
+    {
+        solution = s;
+        return true;
+    }
+    if (!closed.find(s))
+    {
+        State *children;
+        int num;
+        expand(s,children,num);
+        for (int i=0; i<num; i++)
+            agenda.push(children[i]);
+        closed.insert(s);
+    }
+    return DFS(agenda,closed,goal,solution);
 }
 int main()
 {
